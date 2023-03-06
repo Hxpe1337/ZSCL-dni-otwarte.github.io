@@ -7,14 +7,14 @@ function ticTacToe() {
 	let board = ["", "", "", "", "", "", "", "", ""];
   
 	function updateTurn() {
-		const turn = document.querySelector("#turn");
-		turn.textContent = `Runda gracza ${player}`;
+	  const turn = document.querySelector("#turn");
+	  turn.textContent = `Runda gracza ${player}`;
 	}
   
 	function updateBoard() {
-		cells.forEach((cell, index) => {
-			cell.textContent = board[index];
-		});
+	  cells.forEach((cell, index) => {
+		cell.textContent = board[index];
+	  });
 	}
   
 	function checkWin() {
@@ -28,17 +28,37 @@ function ticTacToe() {
 			[0, 4, 8],
 			[2, 4, 6]
 		];
-		return winCombinations.some(combination => {
+	
+		let winner = winCombinations.find(combination => {
 			return combination.every(index => {
 				return board[index] === player;
 			});
 		});
+	
+		if (winner) {
+			winner.forEach(index => {
+				cells[index].style.color = 'red';
+			});
+			return true;
+		}
+	
+		return false;
 	}
   
 	function endGame() {
 		cells.forEach(cell => {
 			cell.removeEventListener("click", handleClick);
 		});
+	
+		if (checkWin()) {
+			const turn = document.querySelector("#turn");
+	
+
+		} else if (moves === 9) {
+			result.textContent = "Remis!";
+		}
+	
+		result.style.display = "block";
 		playAgain.style.display = "block";
 	}
   
@@ -51,30 +71,38 @@ function ticTacToe() {
 		result.style.display = "none";
 		playAgain.style.display = "none";
 		cells.forEach(cell => {
-			cell.addEventListener("click", handleClick, { once: true });
+		  cell.addEventListener("click", handleClick, { once: true });
+		  cell.style.color = "white"; // reset font color to white
 		});
-	}
+	  }
+	  
   
 	function handleClick(event) {
-		const cell = event.target;
-		const cellIndex = cell.id;
-		board[cellIndex] = player;
-		cell.textContent = player;
-		moves++;
-		if (checkWin()) {
-			result.textContent = `${player} Wygrywa!`;
-			endGame();
-		} else if (moves === 9) {
-			result.textContent = "Remis!";
-			endGame();
-		} else {
-			player = player === "X" ? "O" : "X";
-			updateTurn();
-		}
+	  const cell = event.target;
+	  const cellIndex = cell.id;
+	  board[cellIndex] = player;
+	  cell.textContent = player;
+	  moves++;
+	  if (checkWin()) {
+		result.textContent = `${player} Wygrywa!`;
+		endGame();
+	  } else if (moves === 9) {
+		result.textContent = "Remis!";
+		endGame();
+	  } else {
+		player = player === "X" ? "O" : "X";
+		updateTurn();
+	  }
 	}
   
-	cells.forEach(cell => {
-		cell.addEventListener("click", handleClick, { once: true });
+	function highlightWinningCells(combination) {
+	  combination.forEach((index) => {
+		cells[index].classList.add("winning-cell");
+	  });
+	}
+  
+	cells.forEach((cell) => {
+	  cell.addEventListener("click", handleClick, { once: true });
 	});
   
 	playAgain.addEventListener("click", resetGame);

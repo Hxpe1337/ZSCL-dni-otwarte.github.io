@@ -2,7 +2,7 @@ window.onload=function() {
     canv=document.getElementById("gc");
     ctx=canv.getContext("2d");
     document.addEventListener("keydown",keyPush);
-    setInterval(game,1000/15);
+    setInterval(game,1000/12);
 }
 
 // Initialize variables
@@ -11,7 +11,7 @@ gs=tc=20;
 ax=ay=15;
 xv=yv=0;
 trail=[];
-tail = 5;
+tail = 2;
 score = 0;
 gamePaused = false;
 let koniec = false;
@@ -52,7 +52,7 @@ function game() {
             ax=ay=15;
             xv=yv=0;
             trail=[];
-            tail = 5;
+            tail = 2;
             score = 0;
             ctx.fillStyle = "rgba(255, 255, 255, " + 0.7 + ")";
             ctx.font = "32px VT323";
@@ -85,22 +85,28 @@ function game() {
 function keyPush(evt) {
     switch(evt.keyCode) {
         case 65:
-            xv=-1;yv=0;
+            if (xv !== 1) {  // allow only left if the current direction is not right
+                xv=-1;yv=0;
+            }
             break;
         case 87:
-
-            xv=0;yv=-1;
+            if (yv !== 1) {  // allow only up if the current direction is not down
+                xv=0;yv=-1;
+            }
             break;
         case 68:
-
-            xv=1;yv=0;
+            if (xv !== -1) { // allow only right if the current direction is not left
+                xv=1;yv=0;
+            }
             break;
         case 83:
-
-            xv=0;yv=1;
+            if (yv !== -1) { // allow only down if the current direction is not up
+                xv=0;yv=1;
+            }
             break;
     }
 }
+
 
 function pauseGame() {
     var pauseButton = document.getElementById("pauseButton");

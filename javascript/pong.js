@@ -15,7 +15,7 @@ let ballYSpeed = 2;
 let player1YPosition = 120;
 let player2YPosition = 120;
 let player1ScoreCount = 0;
-let playermovementspeed = 10;
+let playermovementspeed = 30;
 let player2ScoreCount = 0;
 let gameRunning = false;
 let gameStopped = false;
@@ -71,26 +71,44 @@ function moveBall() {
   ball.style.top = ballYPosition + "px";
   ball.style.left = ballXPosition + "px";
 }
+let lastPlayer1Movement = null;
+let lastPlayer2Movement = null;
+const movementDelay = 0; // milliseconds
+
 
 function movePlayer1(event) {
-  if (event.keyCode === 87 && player1YPosition > 0) {
-    player1YPosition -= playermovementspeed;
-    player1.style.top = player1YPosition + "px";
+  const gameContainerHeight = gameContainer.getBoundingClientRect().height;
+  const playerHeight = player1.getBoundingClientRect().height;
+
+  if (event.keyCode === 87 && lastPlayer1Movement !== "down" && player1YPosition > 0) {
+    player1YPosition -= playermovementspeed / gameContainerHeight * 100;
+    player1.style.top = player1YPosition / gameContainerHeight * 100 + "%";
+    lastPlayer1Movement = "up";
+    setTimeout(() => {lastPlayer1Movement = null;}, movementDelay);
   }
-  if (event.keyCode === 83 && player1YPosition < 240) {
-    player1YPosition += playermovementspeed;
-    player1.style.top = player1YPosition + "px";
+  if (event.keyCode === 83 && lastPlayer1Movement !== "up" && player1YPosition < gameContainerHeight - playerHeight) {
+    player1YPosition += playermovementspeed / gameContainerHeight * 100;
+    player1.style.top = player1YPosition / gameContainerHeight * 100 + "%";
+    lastPlayer1Movement = "down";
+    setTimeout(() => {lastPlayer1Movement = null;}, movementDelay);
   }
 }
 
 function movePlayer2(event) {
-  if (event.keyCode === 38 && player2YPosition > 0) {
-    player2YPosition -= playermovementspeed;
-    player2.style.top = player2YPosition + "px";
+  const gameContainerHeight = gameContainer.getBoundingClientRect().height;
+  const playerHeight = player2.getBoundingClientRect().height;
+
+  if (event.keyCode === 38 && lastPlayer2Movement !== "down" && player2YPosition > 0) {
+    player2YPosition -= playermovementspeed / gameContainerHeight * 100;
+    player2.style.top = player2YPosition / gameContainerHeight * 100 + "%";
+    lastPlayer2Movement = "up";
+    setTimeout(() => {lastPlayer2Movement = null;}, movementDelay);
   }
-  if (event.keyCode === 40 && player2YPosition < 240) {
-    player2YPosition += playermovementspeed;
-    player2.style.top = player2YPosition + "px";
+  if (event.keyCode === 40 && lastPlayer2Movement !== "up" && player2YPosition < gameContainerHeight - playerHeight) {
+    player2YPosition += playermovementspeed / gameContainerHeight * 100;
+    player2.style.top = player2YPosition / gameContainerHeight * 100 + "%";
+    lastPlayer2Movement = "down";
+    setTimeout(() => {lastPlayer2Movement = null;}, movementDelay);
   }
 }
 
@@ -100,9 +118,10 @@ function resetBall() {
   ballXSpeed = -2;
   ballYSpeed = 2;
 }
+
 function startGame() {
   if (!gameRunning && gamepause==false) {
-    playermovementspeed = 10;
+    playermovementspeed = 30;
     document.getElementById("paused-message").innerHTML = "";
 
     GameStarted = true;
@@ -153,7 +172,7 @@ function restartGame() {
 function stopGame() {
 
   if (!gameRunning) {
-    playermovementspeed = 10;
+    playermovementspeed = 30;
 
     gamepause = false;
     document.getElementById("paused-message").innerHTML = "";

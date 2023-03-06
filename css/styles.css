@@ -59,6 +59,16 @@ code {
 
 }
 
+.author {
+  font-family: 'VT323', monospace;
+
+  font-size: 2vw;
+  text-align: center;
+
+  left: 50%;
+  color:rgb(232, 232, 232);
+}
+
 .tag {
   font-family: 'VT323', monospace;
   font-size: 32px;
