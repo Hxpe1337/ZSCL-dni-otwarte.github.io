@@ -14,6 +14,7 @@ trail=[];
 tail = 5;
 score = 0;
 gamePaused = false;
+let koniec = false;
 
 function game() {
     
@@ -53,10 +54,12 @@ function game() {
             trail=[];
             tail = 5;
             score = 0;
-            ctx.fillStyle = "white";
-            ctx.font = "30px Arial";
+            ctx.fillStyle = "rgba(255, 255, 255, " + 0.7 + ")";
+            ctx.font = "32px VT323";
             ctx.textAlign = "center";
+            ctx.fillText("Aby zacząć porusz się WASD", canv.width / 2, canv.height / 2);
             document.getElementById("score").innerText = "" + score;
+            koniec = true;
         }
     }
     // Add the snake's head to the trail
@@ -102,9 +105,9 @@ function keyPush(evt) {
 function pauseGame() {
     var pauseButton = document.getElementById("pauseButton");
 
-    if(gamePaused == false){
-        ctx.fillStyle = "white";
-        ctx.font = "30px Monospace";
+    if(gamePaused == false && koniec == false){
+        ctx.fillStyle = "rgba(255, 255, 255, " + 0.7 + ")";
+        ctx.font = "48px VT323";
         ctx.textAlign = "center";
         ctx.fillText("Gra Zapauzowana", canv.width / 2, canv.height / 2);
         pauseButton.innerText = "Wznów";

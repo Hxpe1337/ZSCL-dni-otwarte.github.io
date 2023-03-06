@@ -1,0 +1,17 @@
+#section1 {
+    height: 1400px   ;
+    background-color: rgb(0, 0, 0);
+  }
+  
+  #pong {
+    height: 2000px;
+    background-color: rgb(0,0,0);
+  }
+
+
+
+#snake {
+    height: 800px;
+    background-color: rgb(0,0,0);
+}
+

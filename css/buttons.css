@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+
+.buttons {
+    text-align: center;
+}
+
+button {
+
+    padding: 12px;
+    font-weight: 50;
+    font-family: 'VT323', monospace;
+    color: white;
+
+    width: 250px;
+    font-size: 24px;
+    background-color: transparent;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    border-width: 2px;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+
+}
+
+button a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.button-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  
+  @media (max-width: 768px) {
+    button {
+      font-size: 14px;
+      padding: 15px 25px;
+    }
+  }
+  

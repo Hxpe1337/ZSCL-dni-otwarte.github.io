@@ -15,9 +15,12 @@ let ballYSpeed = 2;
 let player1YPosition = 120;
 let player2YPosition = 120;
 let player1ScoreCount = 0;
+let playermovementspeed = 10;
 let player2ScoreCount = 0;
 let gameRunning = false;
 let gameStopped = false;
+let GameStarted = false;
+let gamepause = false;
 
 function moveBall() {
   ballXPosition += ballXSpeed;
@@ -71,22 +74,22 @@ function moveBall() {
 
 function movePlayer1(event) {
   if (event.keyCode === 87 && player1YPosition > 0) {
-    player1YPosition -= 10;
+    player1YPosition -= playermovementspeed;
     player1.style.top = player1YPosition + "px";
   }
   if (event.keyCode === 83 && player1YPosition < 240) {
-    player1YPosition += 10;
+    player1YPosition += playermovementspeed;
     player1.style.top = player1YPosition + "px";
   }
 }
 
 function movePlayer2(event) {
   if (event.keyCode === 38 && player2YPosition > 0) {
-    player2YPosition -= 10;
+    player2YPosition -= playermovementspeed;
     player2.style.top = player2YPosition + "px";
   }
   if (event.keyCode === 40 && player2YPosition < 240) {
-    player2YPosition += 10;
+    player2YPosition += playermovementspeed;
     player2.style.top = player2YPosition + "px";
   }
 }
@@ -98,10 +101,14 @@ function resetBall() {
   ballYSpeed = 2;
 }
 function startGame() {
-  if (!gameRunning) {
+  if (!gameRunning && gamepause==false) {
+    playermovementspeed = 10;
+    document.getElementById("paused-message").innerHTML = "";
+
+    GameStarted = true;
     gameRunning = true;
     gameStopped = false;
-    startButton.textContent = "Pause";
+    startButton.textContent = "Restart";
     player1ScoreCount = 0;
     player2ScoreCount = 0;
     player1Score.textContent = "0";
@@ -109,8 +116,12 @@ function startGame() {
     resetBall();
     moveBallInterval = setInterval(moveBall, 10);
   } else {
+    playermovementspeed = 0;
+    document.getElementById("paused-message").innerHTML = "Press again START";
+
+    GameStarted = false;
     gameRunning = false;
-    startButton.textContent = "Wznów";
+    startButton.textContent = "Start";
     clearInterval(moveBallInterval);
   }
 }
@@ -140,19 +151,27 @@ function restartGame() {
 }
 
 function stopGame() {
-  clearInterval(moveBallInterval);
-  gameRunning = false;
-  gameStopped = true;
-  startButton.textContent = "Start";
-  resetBall();
-  player1YPosition = 120;
-  player2YPosition = 120;
-  player1.style.top = player1YPosition + "px";
-  player2.style.top = player2YPosition + "px";
-  player1ScoreCount = 0;
-  player2ScoreCount = 0;
-  player1Score.textContent = "0";
-  player2Score.textContent = "0";
+
+  if (!gameRunning) {
+    playermovementspeed = 10;
+
+    gamepause = false;
+    document.getElementById("paused-message").innerHTML = "";
+    gameRunning = true;
+    gameStopped = false;
+    stopButton.textContent = "Stop";
+
+    resetBall();
+    moveBallInterval = setInterval(moveBall, 10);
+  } else {
+    playermovementspeed = 0;
+
+    gamepause = true;
+    document.getElementById("paused-message").innerHTML = "Game is paused";
+    gameRunning = false;
+    stopButton.textContent = "Wznów";
+    clearInterval(moveBallInterval);
+  }
 }
 
 document.addEventListener("keydown", movePlayer1);
